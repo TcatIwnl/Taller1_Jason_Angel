@@ -1,3 +1,4 @@
+
 package logica;
 
 import java.util.Scanner;
@@ -5,14 +6,24 @@ import java.io.*;
 
 
 public class Main{
+
+//Angel Eduardo Olivares Flores
+//22.338.590-7 / ICCI
+
+	
+//Jason Alexander Tapia Castro
+//22.382.028-K / ICCI
 	
 	    static int MAX_REGISTROS = 300;
 	    static int MAX_USUARIOS = 3;
 
+	    //lista para usuarios.txt
 	    static String[] usuariosId = new String[MAX_USUARIOS];
 	    static String[] usuariosPass = new String[MAX_USUARIOS];
 	    static int cantUsuarios = 0;
 
+	    
+	    //lista para registros.txt
 	    static String[] regUsuario = new String[MAX_REGISTROS];
 	    static String[] regFecha = new String[MAX_REGISTROS];
 	    static int[] regHoras = new int[MAX_REGISTROS];
@@ -23,10 +34,8 @@ public class Main{
     public static void main(String[] args) throws FileNotFoundException {
         Scanner lector = new Scanner(System.in);
         
-        //creamos el lector del archivo de registros
-        File registro = new File("Registros.txt");
-        
-        Scanner scRegistro =  new Scanner(registro);
+        leerArchivoRegistros();
+        leerArchivoUsuarios();
         
         int opcionPrincipal = 0;
         int opcionUsuario = 0;
@@ -131,4 +140,67 @@ public class Main{
 
         lector.close();
     }
+    
+    //Funcion para leer el archivo de registros
+    public static void leerArchivoRegistros() {
+        try {
+            File registro = new File("Registros.txt");
+            Scanner scRegistro = new Scanner(registro);
+
+            while(scRegistro.hasNextLine()) {
+                String linea = scRegistro.nextLine();
+                String[] partesRG = linea.split(";");
+
+                // Asignamos cada parte a su arreglo correspondiente
+                // usando cantRegistros para saber en que posicion guardarlo
+                
+                regUsuario[cantRegistros] = partesRG[0];
+                regFecha[cantRegistros] = partesRG[1];
+                
+                //Pasamos el texto a int
+                regHoras[cantRegistros] = Integer.parseInt(partesRG[2]); 
+                
+                regActividad[cantRegistros] = partesRG[3];
+
+                // Ahora que ya guardamos todo, avanzamos el contador al siguiente espacio vacio
+                cantRegistros++; 
+                
+            }
+            scRegistro.close(); 
+
+        } catch (Exception e) {
+            System.out.println("Error al leer el archivo Registros.txt");
+        }
+    }
+    
+    //Funcion para leer el archivo de los usuarios
+    public static void leerArchivoUsuarios() {
+        try {
+            File archivoU = new File("Usuarios.txt");
+            
+            //verificar si el archivo existe
+            if (archivoU.exists()) {
+                Scanner scUser = new Scanner(archivoU);
+                
+                // Leemos mientras haya lineas y no nos pasemos del limite
+                while (scUser.hasNextLine() && cantUsuarios <= MAX_USUARIOS) {
+                    String linea = scUser.nextLine();
+                    String[] partesU = linea.split(";");
+                      
+                    usuariosId[cantUsuarios] = partesU[0];
+                    usuariosPass[cantUsuarios] = partesU[1];
+                        
+                    //contador de usuarios
+                    cantUsuarios++; 
+                }
+                scUser.close();
+            } else {
+                System.out.println("No se encontro Usuarios.txt");
+            }
+            
+        } catch (Exception e) {
+            System.out.println("Error al cargar los usuarios.");
+        }
+    }
 }
+
