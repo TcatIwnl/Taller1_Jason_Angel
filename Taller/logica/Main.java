@@ -95,10 +95,9 @@ public class Main {
                                     System.out.println("Cual actividad deseas modificar?");
                                 	// Opcion correcta, se actualiza con los registros añadidos
                                     mostrarRegistrosDeUsuario(usuario);
-<<<<<<< HEAD
-=======
+
                                     // Hacer un segundo menú con opciones
->>>>>>> 851efc28979f6d0e0a7b647d32da1a6a7c48f46f
+
                                     break;
 
                                 case 3:
@@ -349,8 +348,6 @@ public class Main {
         regActividad[cantRegistros] = actividad;
 
         cantRegistros++;
-
-<<<<<<< HEAD
         guardarCambios(1);
         
         System.out.println("Actividad registrada con exito.");
@@ -394,8 +391,6 @@ public class Main {
 			}
     	}
         
-            
-        
     }
     
  // Menu 1, opcion 4) Cambiar contrasena
@@ -438,8 +433,4 @@ public class Main {
             
         }
     }
-=======
-        System.out.println("Actividad registrada con exito.");
-    }
->>>>>>> 851efc28979f6d0e0a7b647d32da1a6a7c48f46f
 }
