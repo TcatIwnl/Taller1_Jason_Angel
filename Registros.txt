@@ -198,5 +198,7 @@ Catalina;05/05/2026;1;programar
 Estefania;05/05/2026;2;Ver mlp
 Martin;06/05/2026;5;ser therian
 Catalina;06/05/2026;6;ser Batman por las noches
-Catalina;27/03/2026;2;hacer caca
+Catalina;27/03/2026;2;dormir
 Catalina;39/05/1973;5;hola mundo
+Martin;19/01/2025;350;ser yolotrol
+Martin;20/03/2015;3;jugar terraria

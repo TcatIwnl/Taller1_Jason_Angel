@@ -87,21 +87,16 @@ public class Main {
 
                             switch (opcionUsuario) {
                                 case 1:
-                                    System.out.println("Opcion registrar actividad seleccionada.");
                                     registrarActividad(usuario, lector);
                                     break;
 
                                 case 2:
-                                    System.out.println("Cual actividad deseas modificar?");
-                                	// Opcion correcta, se actualiza con los registros añadidos
-                                    mostrarRegistrosDeUsuario(usuario);
-
-                                    // Hacer un segundo menú con opciones
-
+                                    System.out.println("Cual actividad deseas modificar?\n");
+                                    modificarActividad(usuario, lector);
                                     break;
 
                                 case 3:
-                                    System.out.println("Cual actividad deseas eliminar?");
+                                    System.out.println("Cual actividad deseas eliminar?\n");
                                 	// Opcion correcta, se actualiza con los registros añadidos
                                     mostrarRegistrosDeUsuario(usuario);
                                     break;
@@ -147,9 +142,9 @@ public class Main {
                         }
 
                         switch (opcionAnalisis) {
-                            case 1:
-                                System.out.println("Actividad mas realizada aun no implementada.");
-                                break;
+                        case 1:
+                            actividadMasRealizada();
+                            break;
 
                             case 2:
                                 System.out.println("Actividad mas realizada por cada usuario aun no implementada.");
@@ -321,8 +316,15 @@ public class Main {
             return;
         }
 
-        System.out.print("Ingrese la fecha (dd/mm/yyyy): ");
-        fecha = lector.nextLine();
+        do {
+            System.out.print("Ingrese la fecha (dd/mm/yyyy): ");
+            fecha = lector.nextLine();
+
+            if (!esFechaValida(fecha)) {
+                System.out.println("Formato invalido.");
+            }
+
+        } while (!esFechaValida(fecha));
 
         do {
             System.out.print("Ingrese la cantidad de horas: ");
@@ -339,6 +341,7 @@ public class Main {
             }
         } while (horas <= 0);
 
+        // Hacer verificación actividad vacia PENDIENTE *
         System.out.print("Ingrese la actividad: ");
         actividad = lector.nextLine();
 
@@ -431,6 +434,188 @@ public class Main {
             guardarCambios(2);
             System.out.println("Contraseña cambiada con exito");
             
+        }
+    }
+    
+    public static void modificarActividad(String usuarioActual, Scanner lector) {
+        
+        int cantidadRegistros = mostrarRegistrosDeUsuario(usuarioActual);
+
+        if (cantidadRegistros == 0) {
+            return; 
+        }
+       
+        System.out.print("\nIngrese el numero de la actividad: ");
+        int opcionElegida;
+        try {
+            opcionElegida = Integer.parseInt(lector.nextLine());
+        } catch (Exception e) {
+            System.out.println("Error, ingrese un numero valido.");
+            return;
+        }
+
+        if (opcionElegida == 0) {
+            System.out.println("Regresando...");
+            return;
+        }
+
+        if (opcionElegida > 0 && opcionElegida <= cantidadRegistros) {
+            
+            int[] indices = obtenerIndicesDeUsuario(usuarioActual);
+            int indiceReal = indices[opcionElegida - 1];
+
+            // Implementamos un ciclo para que pueda volver a la parte anterior
+            int tipoMod = -1;
+            do {
+                System.out.println("\nQue deseas modificar?");
+                System.out.println("0) Regresar al menu principal.");
+                System.out.println("1) Fecha");
+                System.out.println("2) Duracion");
+                System.out.println("3) Tipo de actividad");
+                System.out.print("Opcion: ");
+
+                try {
+                    tipoMod = Integer.parseInt(lector.nextLine());
+                } catch (Exception e) {
+                    System.out.println("Error, ingrese un numero valido.");
+                    tipoMod = -1;
+                    continue;
+                }
+
+                switch (tipoMod) {
+                    case 0:
+                        System.out.println("Regresando...");
+                        break;
+                    
+                    case 1:
+                        String nuevaFecha;
+
+                        do {
+                            System.out.println("0) Regresar");
+                            System.out.print("Ingrese nueva fecha (dd/mm/yyyy): ");
+                            nuevaFecha = lector.nextLine();
+
+                            if (nuevaFecha.equals("0")) {
+                                System.out.println("Edicion cancelada.");
+                                break;
+                            }
+
+                            if (!esFechaValida(nuevaFecha)) {
+                                System.out.println("Formato invalido. Use dd/mm/yyyy");
+                            }
+
+                        } while (!nuevaFecha.equals("0") && !esFechaValida(nuevaFecha));
+
+                        if (!nuevaFecha.equals("0")) {
+                            regFecha[indiceReal] = nuevaFecha;
+                            guardarCambios(1);
+                            System.out.println("Actividad modificada con exito!");
+                            tipoMod = 0;
+                        }
+
+                        break;
+                    
+                    case 2:
+                        System.out.println("0) Regresar");
+                        System.out.print("Ingrese nueva duracion (horas): ");
+                        try {
+                            int nuevasHoras = Integer.parseInt(lector.nextLine());
+                            if (nuevasHoras == 0) {
+                                System.out.println("Edicion cancelada.");
+                            } else if (nuevasHoras > 0) {
+                                regHoras[indiceReal] = nuevasHoras;
+                                guardarCambios(1);
+                                System.out.println("Actividad modificada con exito!");
+                                tipoMod = 0; 
+                            } else {
+                                System.out.println("Las horas deben ser mayores a 0. No se guardaron cambios.");
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Error, ingrese un numero valido. No se guardaron cambios.");
+                        }
+                        break;
+                    
+                    case 3:
+                        System.out.println("0) Regresar");
+                        System.out.print("Ingrese nuevo tipo de actividad: ");
+                        
+                        String opcionTemp = lector.nextLine();
+                        if (opcionTemp.equals("0")) {
+                            System.out.println("Edicion cancelada.");
+                        } else {
+                            regActividad[indiceReal] = opcionTemp;
+                            guardarCambios(1);
+                            System.out.println("Actividad modificada con exito!");
+                            tipoMod = 0; 
+                        }
+                        break;
+
+                    default:
+                        System.out.println("Opcion invalida.");
+                        break;
+                }
+            } while (tipoMod != 0); // El ciclo repite el menu mientras no sea 0
+
+        } else {
+            System.out.println("Numero de actividad fuera de rango.");
+        }
+    }
+    public static void actividadMasRealizada() {
+        String actividadMayor = "";
+        int mayorHoras = 0;
+
+        if (cantRegistros == 0) {
+            System.out.println("No hay registros guardados.");
+            return;
+        }
+
+        for (int i = 0; i < cantRegistros; i++) {
+            String actividadActual = regActividad[i];
+            int sumaHoras = 0;
+
+            for (int j = 0; j < cantRegistros; j++) {
+                if (regActividad[j].equals(actividadActual)) {
+                    sumaHoras += regHoras[j];
+                }
+            }
+
+            if (sumaHoras > mayorHoras) {
+                mayorHoras = sumaHoras;
+                actividadMayor = actividadActual;
+            }
+        }
+
+        System.out.println("\nActividad mas realizada:");
+        System.out.println(actividadMayor + " -> con " + mayorHoras + " horas registradas");
+    }
+    public static boolean esFechaValida(String fecha) {
+        try {
+            String[] partes = fecha.split("/");
+
+            if (partes.length != 3) {
+                return false;
+            }
+
+            int dia = Integer.parseInt(partes[0]);
+            int mes = Integer.parseInt(partes[1]);
+            int anio = Integer.parseInt(partes[2]);
+
+            if (dia < 1 || dia > 31) {
+                return false;
+            }
+
+            if (mes < 1 || mes > 12) {
+                return false;
+            }
+
+            if (anio < 1900 || anio > 2100) {
+                return false;
+            }
+
+            return true;
+
+        } catch (Exception e) {
+            return false;
         }
     }
 }
