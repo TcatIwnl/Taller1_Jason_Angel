@@ -187,7 +187,7 @@ Estefania;01/05/2026;2;Ver mlp
 Martin;02/05/2026;6;ser therian
 Catalina;02/05/2026;5;ser Batman por las noches
 Estefania;02/05/2026;4;investigar las cutiemarks
-Martin;03/05/2026;1;Ver reels
+Martin;03/05/2026;12;hacer popo
 Catalina;03/05/2026;2;Ver jujutsu
 Estefania;03/05/2026;3;estudiar
 Martin;04/05/2026;4;ser therian
@@ -200,3 +200,4 @@ Martin;06/05/2026;5;ser therian
 Catalina;06/05/2026;6;ser Batman por las noches
 Catalina;27/03/2026;2;hacer caca
 Catalina;39/05/1973;5;hola mundo
+Martin;23/02/2001;2;hacer el taller
