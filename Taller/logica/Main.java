@@ -97,8 +97,7 @@ public class Main {
 
                                 case 3:
                                     System.out.println("Cual actividad deseas eliminar?\n");
-                                	// Opcion correcta, se actualiza con los registros añadidos
-                                    mostrarRegistrosDeUsuario(usuario);
+                                    eliminarActividad(usuario, lector);
                                     break;
 
                                 case 4:
@@ -142,16 +141,16 @@ public class Main {
                         }
 
                         switch (opcionAnalisis) {
-                        case 1:
-                            actividadMasRealizada();
-                            break;
-
-                            case 2:
-                                System.out.println("Actividad mas realizada por cada usuario aun no implementada.");
-                                break;
+                        	case 1:
+                        		actividadMasRealizada();
+                        		break;
+                  
+                        	case 2:
+                        		actividadMasRealizadaPorUsuario();
+                        		break;
 
                             case 3:
-                                System.out.println("Usuario con mayor procrastinacion aun no implementado.");
+                                usuarioConMayorProcrastinacion();
                                 break;
 
                             case 4:
@@ -560,6 +559,74 @@ public class Main {
             System.out.println("Numero de actividad fuera de rango.");
         }
     }
+    
+ // Menu 1, opcion 3) Eliminar actividad
+    public static void eliminarActividad(String usuarioActual, Scanner lector) {
+        
+        // 1. Usamos tu funcion para mostrar y contar las actividades del usuario
+        int cantidadRegistros = mostrarRegistrosDeUsuario(usuarioActual);
+
+        if (cantidadRegistros == 0) {
+            return; // Si no tiene, el metodo anterior ya aviso, asi que salimos
+        }
+
+        System.out.print("\nIngrese el numero de la actividad a eliminar (0 para cancelar): ");
+        int opcionElegida;
+        try {
+            opcionElegida = Integer.parseInt(lector.nextLine());
+        } catch (Exception e) {
+            System.out.println("Error, ingrese un numero valido.");
+            return;
+        }
+
+        if (opcionElegida == 0) {
+            System.out.println("Eliminacion cancelada. Regresando...");
+            return;
+        }
+
+        // 2. Verificamos que haya elegido un numero valido de la lista
+        if (opcionElegida > 0 && opcionElegida <= cantidadRegistros) {
+            
+            // 3. Obtenemos el indice real en el arreglo global
+            int[] indices = obtenerIndicesDeUsuario(usuarioActual);
+            int indiceReal = indices[opcionElegida - 1];
+
+            System.out.println("\nEsta seguro de que desea eliminar la actividad: '" + regActividad[indiceReal] + "'?");
+            System.out.println("1) Si, eliminar");
+            System.out.println("2) No, cancelar");
+            System.out.print("Opcion: ");
+            
+            int confirmacion;
+            try {
+                confirmacion = Integer.parseInt(lector.nextLine());
+            } catch (Exception e) {
+                confirmacion = 2; // En caso de error, asumimos que cancela por seguridad
+            }
+
+            if (confirmacion == 1) {
+                // Empezamos desde el indice que queremos borrar y copiamos el de su derecha
+                for (int i = indiceReal; i < cantRegistros - 1; i++) {
+                    regUsuario[i] = regUsuario[i + 1];
+                    regFecha[i] = regFecha[i + 1];
+                    regHoras[i] = regHoras[i + 1];
+                    regActividad[i] = regActividad[i + 1];
+                }
+
+                // 5. Restamos el contador global
+                cantRegistros--;
+
+                // 6. Guardamos los cambios en el archivo de texto
+                guardarCambios(1);
+
+                System.out.println("Actividad eliminada exitosamente.");
+            } else {
+                System.out.println("Eliminacion cancelada.");
+            }
+            
+        } else {
+            System.out.println("Numero de actividad fuera de rango.");
+        }
+    }
     public static void actividadMasRealizada() {
         String actividadMayor = "";
         int mayorHoras = 0;
@@ -586,7 +653,7 @@ public class Main {
         }
 
         System.out.println("\nActividad mas realizada:");
-        System.out.println(actividadMayor + " -> con " + mayorHoras + " horas registradas");
+        System.out.println(actividadMayor + " con " + mayorHoras + " horas registradas");
     }
     public static boolean esFechaValida(String fecha) {
         try {
@@ -616,6 +683,76 @@ public class Main {
 
         } catch (Exception e) {
             return false;
+        }
+    }
+    
+    public static void usuarioConMayorProcrastinacion() {
+        String usuarioMayor = "";
+        int mayorHoras = 0;
+
+        if (cantRegistros == 0) {
+            System.out.println("No hay registros guardados.");
+            return;
+        }
+
+        for (int i = 0; i < cantUsuarios; i++) {
+            int sumaHoras = 0;
+
+            for (int j = 0; j < cantRegistros; j++) {
+                if (regUsuario[j].equals(usuariosId[i])) {
+                    sumaHoras = sumaHoras + regHoras[j];
+                }
+            }
+
+            if (sumaHoras > mayorHoras) {
+                mayorHoras = sumaHoras;
+                usuarioMayor = usuariosId[i];
+            }
+        }
+
+        System.out.println("\nUsuario con mayor procrastinacion:");
+        System.out.println(usuarioMayor + " con " + mayorHoras + " horas registradas");
+    }
+    
+    public static void actividadMasRealizadaPorUsuario() {
+        if (cantRegistros == 0) {
+            System.out.println("No hay registros guardados.");
+            return;
+        }
+
+        System.out.println("\nActividades mas realizadas por cada usuario:\n");
+
+        for (int i = 0; i < cantUsuarios; i++) {
+            String usuarioActual = usuariosId[i];
+            String actividadMayor = "";
+            int mayorHoras = 0;
+            boolean tieneRegistros = false;
+
+            for (int j = 0; j < cantRegistros; j++) {
+                if (regUsuario[j].equals(usuarioActual)) {
+                    tieneRegistros = true;
+
+                    String actividadActual = regActividad[j];
+                    int sumaHoras = 0;
+
+                    for (int k = 0; k < cantRegistros; k++) {
+                        if (regUsuario[k].equals(usuarioActual) && regActividad[k].equals(actividadActual)) {
+                            sumaHoras = sumaHoras + regHoras[k];
+                        }
+                    }
+
+                    if (sumaHoras > mayorHoras) {
+                        mayorHoras = sumaHoras;
+                        actividadMayor = actividadActual;
+                    }
+                }
+            }
+
+            if (tieneRegistros) {
+                System.out.println("- " + usuarioActual + " -> " + actividadMayor + " -> con " + mayorHoras + " horas registradas");
+            } else {
+                System.out.println("- " + usuarioActual + " -> no tiene actividades registradas");
+            }
         }
     }
 }

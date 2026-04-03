@@ -1,4 +1,4 @@
-Martin;01/03/2026;4;ser therian
+Martin;01/03/2026;4;.
 Catalina;01/03/2026;6;ser Batman por las noches
 Estefania;01/03/2026;3;investigar las cutiemarks
 Martin;02/03/2026;2;programar
@@ -200,9 +200,6 @@ Martin;06/05/2026;5;ser therian
 Catalina;06/05/2026;6;ser Batman por las noches
 Catalina;27/03/2026;2;dormir
 Catalina;39/05/1973;5;hola mundo
-<<<<<<< HEAD
 Martin;23/02/2001;2;hacer el taller
-=======
-Martin;19/01/2025;350;ser yolotrol
-Martin;20/03/2015;3;jugar terraria
->>>>>>> 5eaa4ced555885f262b00ce85a150331768ca5a2
+Martin;20/03/2015;1000;jugar terraria
+Martin;23/01/2011;9;ver jujutsu

@@ -1,8 +1,3 @@
-<<<<<<< HEAD
 Martin;pepe
 Catalina;nose1
-=======
-Martin;papurri
-Catalina;ovallelomasgrande
->>>>>>> 5eaa4ced555885f262b00ce85a150331768ca5a2
 Estefania;cutiemarks
