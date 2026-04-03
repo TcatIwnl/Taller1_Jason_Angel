@@ -1,4 +1,4 @@
-Martin;01/03/2026;4;.
+Martin;01/03/2026;4;ser therian
 Catalina;01/03/2026;6;ser Batman por las noches
 Estefania;01/03/2026;3;investigar las cutiemarks
 Martin;02/03/2026;2;programar
@@ -187,19 +187,14 @@ Estefania;01/05/2026;2;Ver mlp
 Martin;02/05/2026;6;ser therian
 Catalina;02/05/2026;5;ser Batman por las noches
 Estefania;02/05/2026;4;investigar las cutiemarks
-Martin;03/05/2026;12;hacer popo
+Martin;03/05/2026;1;Ver reels
 Catalina;03/05/2026;2;Ver jujutsu
 Estefania;03/05/2026;3;estudiar
 Martin;04/05/2026;4;ser therian
 Catalina;04/05/2026;7;ser Batman por las noches
 Estefania;04/05/2026;3;investigar las cutiemarks
 Martin;05/05/2026;2;estudiar
-Catalina;05/05/2026;1;programar
+Catalina;05/05/2026;2;programar
 Estefania;05/05/2026;2;Ver mlp
 Martin;06/05/2026;5;ser therian
 Catalina;06/05/2026;6;ser Batman por las noches
-Catalina;27/03/2026;2;dormir
-Catalina;39/05/1973;5;hola mundo
-Martin;23/02/2001;2;hacer el taller
-Martin;20/03/2015;1000;jugar terraria
-Martin;23/01/2011;9;ver jujutsu
